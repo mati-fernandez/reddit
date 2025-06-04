@@ -58,9 +58,11 @@ const sidebarData: SidebarData = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export async function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
   // TODO: get all subreddits from sanity
-  // const subreddits = await getSubreddits();
+  const subreddits = await getSubreddits();
 
   return (
     <Sidebar {...props}>
