@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { Minus, Plus } from 'lucide-react';
+import {
+  FlameIcon,
+  HomeIcon,
+  Minus,
+  Plus,
+  TrendingUpDownIcon,
+} from 'lucide-react';
 
 import { SearchForm } from '@/components/search-form';
 import {
@@ -85,6 +91,27 @@ export async function AppSidebar({
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <CreateCommunityButton />
+            </SidebarMenuButton>
+
+            <SidebarMenuButton asChild className="p-5">
+              <Link href="/">
+                <HomeIcon className="w-4 h-4 mr-2" />
+                Home
+              </Link>
+            </SidebarMenuButton>
+
+            <SidebarMenuButton asChild className="p-5">
+              <Link href="/">
+                <TrendingUpDownIcon className="w-4 h-4 mr-2" />
+                Popular
+              </Link>
+            </SidebarMenuButton>
+
+            <SidebarMenuButton asChild className="p-5">
+              <Link href="/">
+                <FlameIcon className="w-4 h-4 mr-2" />
+                Hot/Controversial
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarGroup>
