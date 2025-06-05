@@ -1,18 +1,13 @@
 'use client';
 
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-  useUser,
-} from '@clerk/nextjs';
-import { Button } from './ui/button';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+import { Button } from '../ui/button';
 import ReddishLogo from '@/images/Reddish Full.png';
 import ReddishLogoOnly from '@/images/Reddish Logo Only.png';
 import { ChevronLeftIcon, MenuIcon } from 'lucide-react';
 import Image from 'next/image';
-import { useSidebar } from './ui/sidebar';
+import { useSidebar } from '../ui/sidebar';
+import { ModeToggle } from '../theme-btn';
 
 function Header() {
   //   const { user } = useUser();
@@ -48,7 +43,8 @@ function Header() {
       </div>
 
       {/*Rigth Side*/}
-      <div>
+      <div className="flex items-center gap-2">
+        <ModeToggle />
         <SignedIn>
           <UserButton />
         </SignedIn>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GalleryVerticalEnd, Minus, Plus } from 'lucide-react';
+import { Minus, Plus } from 'lucide-react';
 
 import { SearchForm } from '@/components/search-form';
 import {
@@ -24,6 +24,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ReddishLogo from '@/images/Reddish Full.png';
 import { getSubreddits } from '@/sanity/lib/subreddit/getSubreddits';
+import CreateCommunityButton from './header/CreateCommunityButton';
 
 type SidebarData = {
   navMain: {
@@ -83,8 +84,7 @@ export async function AppSidebar({
         <SidebarGroup>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              {/* TODO: add create community button */}
-              {/* <CreateCommunityButton /> */}
+              <CreateCommunityButton />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarGroup>
