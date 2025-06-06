@@ -6,6 +6,7 @@ import Header from '@/components/header/Header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 import { ThemeProvider } from '@/components/theme-provider';
+import { SanityLive } from '@/sanity/lib/live';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,22 +34,17 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <SidebarProvider>
-              <AppSidebar />
+          <SidebarProvider>
+            <AppSidebar />
 
-              <SidebarInset>
-                <Header />
+            <SidebarInset>
+              <Header />
 
-                <div className="flex flex-col">{children}</div>
-              </SidebarInset>
-            </SidebarProvider>
-          </ThemeProvider>
+              <div className="flex flex-col">{children}</div>
+            </SidebarInset>
+          </SidebarProvider>
+
+          <SanityLive />
         </body>
       </html>
     </ClerkProvider>

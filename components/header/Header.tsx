@@ -7,7 +7,6 @@ import ReddishLogoOnly from '@/images/Reddish Logo Only.png';
 import { ChevronLeftIcon, MenuIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useSidebar } from '../ui/sidebar';
-import { ModeToggle } from '../theme-btn';
 
 function Header() {
   //   const { user } = useUser();
@@ -44,7 +43,6 @@ function Header() {
 
       {/*Rigth Side*/}
       <div className="flex items-center gap-2">
-        <ModeToggle />
         <SignedIn>
           <UserButton />
         </SignedIn>
