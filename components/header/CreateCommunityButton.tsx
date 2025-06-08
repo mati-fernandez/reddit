@@ -12,8 +12,11 @@ import { useUser } from '@clerk/nextjs';
 import { ImageIcon, Plus } from 'lucide-react';
 import { useRef, useState, useTransition } from 'react';
 import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
 import Image from 'next/image';
 import { Button } from '../ui/button';
+import { createCommunity } from '@/action/createCommunity';
+import { useRouter } from 'next/navigation';
 
 function CreateCommunityButton() {
   const { user } = useUser();
@@ -26,6 +29,17 @@ function CreateCommunityButton() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setName(value);
+
+    // Auto-generate slug from name
+    if (!slug || slug === generateSlug(name)) {
+      setSlug(generateSlug(value));
+    }
+  };
 
   const generateSlug = (text: string) => {
     return text
@@ -43,25 +57,15 @@ function CreateCommunityButton() {
     }
   };
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setName(e.target.value);
-
-    // Auto-generate slug from name
-    if (!slug || slug === generateSlug(name)) {
-      setSlug(generateSlug(value));
-    }
-  };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (file) {
       setImageFile(file);
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = () => {
         const result = reader.result as string;
-        setImagePreview(URL.createObjectURL(file));
+        setImagePreview(result);
       };
       reader.readAsDataURL(file);
     }
@@ -79,7 +83,7 @@ function CreateCommunityButton() {
     }
   };
 
-  const handleCreateCommunity = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateCommunity = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!name.trim()) {
@@ -102,7 +106,7 @@ function CreateCommunityButton() {
 
         if (imageFile) {
           const reader = new FileReader();
-          imageBase64 = await new Promise<string>((resolve, reject) => {
+          imageBase64 = await new Promise<string>((resolve) => {
             reader.onload = () => resolve(reader.result as string);
             reader.readAsDataURL(imageFile);
           });
@@ -119,14 +123,17 @@ function CreateCommunityButton() {
           description.trim() || undefined
         );
 
+        console.log('Community created:', result);
+
         if ('error' in result && result.error) {
           setErrorMessage(result.error);
         } else if ('subreddit' in result && result.subreddit) {
           setOpen(false);
           resetForm();
+          router.push(`/community/${result.subreddit.slug?.current}`);
         }
-      } catch (error) {
-        console.error('Failed to create community:', error);
+      } catch (err) {
+        console.error('Failed to create community', err);
         setErrorMessage('Failed to create community');
       }
     });
@@ -139,7 +146,7 @@ function CreateCommunityButton() {
         disabled={!user}
       >
         <Plus className="w-4 h-4 mr-2" />
-        {user ? 'Create Community' : 'Sign in to create a community'}
+        {user ? 'Create a Community' : 'Sign in to create community'}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -153,12 +160,14 @@ function CreateCommunityButton() {
               <div className="text-red-500 text-sm">{errorMessage}</div>
             )}
 
-            <div className="space-y-2 flex flex-col items-center">
-              <label htmlFor="name">Community Name</label>
+            <div className="space-y-2">
+              <label htmlFor="name" className="text-sm font-medium">
+                Community Name
+              </label>
               <Input
                 id="name"
                 name="name"
-                placeholder="r/community"
+                placeholder="My Community"
                 className="w-full focus:ring-2 focus:ring-blue-500"
                 value={name}
                 onChange={handleNameChange}
@@ -195,7 +204,7 @@ function CreateCommunityButton() {
               <label htmlFor="description" className="text-sm font-medium">
                 Description
               </label>
-              <textarea
+              <Textarea
                 id="description"
                 name="description"
                 placeholder="What is this community about?"
@@ -262,8 +271,8 @@ function CreateCommunityButton() {
               {isPending
                 ? 'Creating...'
                 : user
-                ? 'Create Community'
-                : 'Sign in to create community'}
+                  ? 'Create Community'
+                  : 'Sign in to create community'}
             </Button>
           </form>
         </DialogHeader>

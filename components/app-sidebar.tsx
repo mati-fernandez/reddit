@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-  FlameIcon,
-  HomeIcon,
-  Minus,
-  Plus,
-  TrendingUpDownIcon,
-} from 'lucide-react';
+import { FlameIcon, HomeIcon, Minus, Plus, TrendingUpIcon } from 'lucide-react';
 
 import { SearchForm } from '@/components/search-form';
 import {
@@ -26,9 +20,9 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import Link from 'next/link';
 import Image from 'next/image';
 import ReddishLogo from '@/images/Reddish Full.png';
+import Link from 'next/link';
 import { getSubreddits } from '@/sanity/lib/subreddit/getSubreddits';
 import CreateCommunityButton from './header/CreateCommunityButton';
 
@@ -88,32 +82,33 @@ export async function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <CreateCommunityButton />
-            </SidebarMenuButton>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <CreateCommunityButton />
+              </SidebarMenuButton>
 
-            <SidebarMenuButton asChild className="p-5">
-              <Link href="/">
-                <HomeIcon className="w-4 h-4 mr-2" />
-                Home
-              </Link>
-            </SidebarMenuButton>
+              <SidebarMenuButton asChild className="p-5">
+                <Link href="/">
+                  <HomeIcon className="w-4 h-4 mr-2" />
+                  Home
+                </Link>
+              </SidebarMenuButton>
 
-            <SidebarMenuButton asChild className="p-5">
-              <Link href="/">
-                <TrendingUpDownIcon className="w-4 h-4 mr-2" />
-                Popular
-              </Link>
-            </SidebarMenuButton>
-
-            <SidebarMenuButton asChild className="p-5">
-              <Link href="/">
-                <FlameIcon className="w-4 h-4 mr-2" />
-                Hot/Controversial
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+              <SidebarMenuButton asChild className="p-5">
+                <Link href="/popular">
+                  <TrendingUpIcon className="w-4 h-4 mr-2" />
+                  Popular
+                </Link>
+              </SidebarMenuButton>
+              <SidebarMenuButton asChild className="p-5">
+                <Link href="/hot">
+                  <FlameIcon className="w-4 h-4 mr-2" />
+                  Hot/Controversial
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarGroup>
 
         <SidebarGroup>

@@ -4,7 +4,7 @@ import {
 } from '@/sanity.types';
 import { getPostComments } from '@/sanity/lib/vote/getPostComments';
 import { getPostVotes } from '@/sanity/lib/vote/getPostVotes';
-// import { getUserPostVoteStatus } from '@/sanity/lib/vote/getUserPostVoteStatus';
+import { getUserPostVoteStatus } from '@/sanity/lib/vote/getUserPostVoteStatus';
 import TimeAgo from '../TimeAgo';
 import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
@@ -12,7 +12,9 @@ import { MessageSquare } from 'lucide-react';
 import CommentInput from '../comment/CommentInput';
 import CommentList from '../comment/CommentList';
 // import CommentList from '../comment/CommentList';
-// import PostVoteButtons from './PostVoteButtons';
+import PostVoteButtons from './PostVoteButtons';
+import DeleteButton from '../DeleteButton';
+import ReportButton from '../ReportButton';
 // import ReportButton from '../ReportButton';
 // import DeleteButton from '../DeleteButton';
 
@@ -25,7 +27,7 @@ interface PostProps {
 
 async function Post({ post, userId }: PostProps) {
   const votes = await getPostVotes(post._id);
-  //   const vote = await getUserPostVoteStatus(post._id, userId);
+  const vote = await getUserPostVoteStatus(post._id, userId);
   const comments = await getPostComments(post._id, userId);
 
   return (
@@ -35,12 +37,12 @@ async function Post({ post, userId }: PostProps) {
     >
       <div className="flex">
         {/* Vote Buttons */}
-        {/* <PostVoteButtons
+        <PostVoteButtons
           contentId={post._id}
           votes={votes}
           vote={vote}
           contentType="post"
-        /> */}
+        />
 
         {/* Post Content */}
         <div className="flex-1 p-3">
@@ -48,7 +50,7 @@ async function Post({ post, userId }: PostProps) {
             {post.subreddit && (
               <>
                 <a
-                  href={`/community/${post.subreddit.slug}`}
+                  href={`/community/${post.subreddit.slug?.current}`}
                   className="font-medium hover:underline"
                 >
                   c/{post.subreddit.title}
@@ -109,15 +111,15 @@ async function Post({ post, userId }: PostProps) {
       {/* Buttons */}
       <div className="absolute top-2 right-2">
         <div className="flex items-center gap-2">
-          {/* <ReportButton contentId={post._id} /> */}
+          <ReportButton contentId={post._id} />
 
-          {/* {post.author?._id && (
+          {post.author?._id && (
             <DeleteButton
               contentOwnerId={post.author?._id}
               contentId={post._id}
               contentType="post"
             />
-          )} */}
+          )}
         </div>
       </div>
     </article>

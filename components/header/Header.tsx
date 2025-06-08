@@ -7,19 +7,17 @@ import ReddishLogoOnly from '@/images/Reddish Logo Only.png';
 import { ChevronLeftIcon, MenuIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useSidebar } from '../ui/sidebar';
+import CreatePost from '../post/CreatePost';
 
 function Header() {
-  //   const { user } = useUser();
   const { toggleSidebar, open, isMobile } = useSidebar();
-
-  //   const isBanned = user?.publicMetadata['IS_BANNED'] as boolean;
 
   return (
     <header className="flex items-center justify-between p-4 border-b border-gray-200">
-      {/*Left Side*/}
+      {/* Left Side */}
       <div className="h-10 flex items-center">
         {open && !isMobile ? (
-          <ChevronLeftIcon onClick={toggleSidebar} className="w-6 h-6" />
+          <ChevronLeftIcon className="w-6 h-6" onClick={toggleSidebar} />
         ) : (
           <div className="flex items-center gap-2">
             <MenuIcon className="w-6 h-6" onClick={toggleSidebar} />
@@ -41,14 +39,16 @@ function Header() {
         )}
       </div>
 
-      {/*Rigth Side*/}
+      {/* Right Side */}
       <div className="flex items-center gap-2">
+        <CreatePost />
+
         <SignedIn>
           <UserButton />
         </SignedIn>
 
         <SignedOut>
-          <Button asChild variant={'outline'}>
+          <Button asChild variant="outline">
             <SignInButton mode="modal" />
           </Button>
         </SignedOut>

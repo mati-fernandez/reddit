@@ -5,7 +5,6 @@ import '../globals.css';
 import Header from '@/components/header/Header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
-import { ThemeProvider } from '@/components/theme-provider';
 import { SanityLive } from '@/sanity/lib/live';
 
 const geistSans = Geist({
